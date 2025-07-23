@@ -1,0 +1,90 @@
+"use client";
+
+import {
+  Navbar as HeroUINavbar,
+  NavbarContent,
+  NavbarMenu,
+  NavbarMenuToggle,
+  NavbarBrand,
+  NavbarItem,
+} from "@heroui/navbar";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+import NextLink from "next/link";
+import { ThemeSwitch } from "@/components/theme-switch";
+import {IconSearch} from "@tabler/icons-react";
+import NextImage from "next/image";
+import logo from "../public/images/logo-kc.png"
+
+export const Navbar = () => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const searchQuery = formData.get('search') as string;
+
+    if (searchQuery.trim()) {
+      window.location.href = `/?search=${encodeURIComponent(searchQuery.trim())}`;
+    }
+  };
+
+  const searchInput = (
+    <form onSubmit={handleSearch} className="w-full flex">
+      <Input
+        aria-label="Search"
+        name="search"
+        classNames={{
+          inputWrapper: "bg-default-100 rounded-r-none",
+          input: "text-sm",
+        }}
+        labelPlacement="outside"
+        placeholder="Search jerseys..."
+        startContent={
+          <IconSearch className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+        }
+        type="search"
+      />
+      <Button 
+        type="submit" 
+        color="warning" 
+        className="rounded-l-none"
+        aria-label="Search"
+      >
+        Search
+      </Button>
+    </form>
+  );
+
+  return (
+    <HeroUINavbar maxWidth="xl" position="sticky">
+      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
+        <NavbarBrand as="li" className="gap-3 max-w-fit">
+          <NextLink className="flex justify-start items-center gap-1" href="/">
+              <NextImage src={logo} alt="KitCollector Logo" height={50} className="p-1" />
+              <p className="font-retro text-2xl">KitCollector</p>
+          </NextLink>
+        </NavbarBrand>
+      </NavbarContent>
+
+      <NavbarContent
+        className="hidden sm:flex basis-1/5 sm:basis-full"
+        justify="end"
+      >
+        <NavbarItem className="hidden sm:flex gap-2">
+          <ThemeSwitch />
+        </NavbarItem>
+        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
+      </NavbarContent>
+
+      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
+        <ThemeSwitch />
+        <NavbarMenuToggle />
+      </NavbarContent>
+
+      <NavbarMenu>
+        <div className="mt-2 px-2">
+          {searchInput}
+        </div>
+      </NavbarMenu>
+    </HeroUINavbar>
+  );
+};
