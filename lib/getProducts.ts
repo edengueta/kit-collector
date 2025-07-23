@@ -1,4 +1,4 @@
-import productsData from '../data/products.json';
+import productsData from "../data/products.json";
 
 export interface Product {
   id: string;
@@ -28,5 +28,6 @@ export function getProducts(): Product[] {
 // Get a single product by slug
 export function getProductBySlug(slug: string): Product | undefined {
   const products = getProducts();
+
   return products.find((product) => product.slug === slug);
 }

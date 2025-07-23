@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from '@heroui/button';
+import React from "react";
+import { Button } from "@heroui/button";
 
 interface LoadMoreButtonProps {
   onLoadMore: () => void;
@@ -7,23 +7,23 @@ interface LoadMoreButtonProps {
   isLoading?: boolean;
 }
 
-export const LoadMoreButton: React.FC<LoadMoreButtonProps> = ({ 
-  onLoadMore, 
-  hasMore, 
-  isLoading = false 
+export const LoadMoreButton: React.FC<LoadMoreButtonProps> = ({
+  onLoadMore,
+  hasMore,
+  isLoading = false,
 }) => {
   if (!hasMore) return null;
 
   return (
     <div className="w-full flex justify-center mt-8">
-      <Button 
+      <Button
         color="primary"
-        variant="flat"
-        size="lg"
         isDisabled={isLoading}
+        size="lg"
+        variant="flat"
         onClick={onLoadMore}
       >
-        {isLoading ? 'Loading...' : 'Load More'}
+        {isLoading ? "Loading..." : "Load More"}
       </Button>
     </div>
   );

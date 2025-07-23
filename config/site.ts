@@ -2,7 +2,8 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "KitCollector",
-  description: "Discover the best football jerseys from AliExpress at unbeatable prices.",
+  description:
+    "Discover the best football jerseys from AliExpress at unbeatable prices.",
   navItems: [
     {
       label: "Home",
@@ -33,5 +34,5 @@ export const siteConfig = {
   ],
   itemsPerPage: 12,
   showBannerInGrid: true,
-  bannerInterval: 16
+  bannerInterval: 16,
 };

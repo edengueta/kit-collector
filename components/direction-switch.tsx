@@ -8,14 +8,38 @@ import clsx from "clsx";
 
 // Custom icons for RTL/LTR
 const LTRIcon = ({ size = 22 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 6H20M4 12H14M4 18H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg
+    fill="none"
+    height={size}
+    viewBox="0 0 24 24"
+    width={size}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4 6H20M4 12H14M4 18H8"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    />
   </svg>
 );
 
 const RTLIcon = ({ size = 22 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 6H4M20 12H10M20 18H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg
+    fill="none"
+    height={size}
+    viewBox="0 0 24 24"
+    width={size}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M20 6H4M20 12H10M20 18H16"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    />
   </svg>
 );
 
@@ -34,7 +58,11 @@ export const DirectionSwitch: FC<DirectionSwitchProps> = ({
 
   // Initialize direction from localStorage on component mount
   useEffect(() => {
-    const savedDirection = localStorage.getItem("direction") as "ltr" | "rtl" | null;
+    const savedDirection = localStorage.getItem("direction") as
+      | "ltr"
+      | "rtl"
+      | null;
+
     if (savedDirection) {
       setDirection(savedDirection);
       document.documentElement.dir = savedDirection;
@@ -43,6 +71,7 @@ export const DirectionSwitch: FC<DirectionSwitchProps> = ({
 
   const onChange = () => {
     const newDirection = direction === "ltr" ? "rtl" : "ltr";
+
     setDirection(newDirection);
     document.documentElement.dir = newDirection;
     localStorage.setItem("direction", newDirection);
@@ -93,11 +122,7 @@ export const DirectionSwitch: FC<DirectionSwitchProps> = ({
           ),
         })}
       >
-        {!isSelected || isSSR ? (
-          <LTRIcon size={22} />
-        ) : (
-          <RTLIcon size={22} />
-        )}
+        {!isSelected || isSSR ? <LTRIcon size={22} /> : <RTLIcon size={22} />}
       </div>
     </Component>
   );

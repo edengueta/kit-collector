@@ -6,7 +6,7 @@ import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
 
 interface FilterBarProps {
-  searchParams: { 
+  searchParams: {
     tag?: string;
     team?: string;
     league?: string;
@@ -21,13 +21,13 @@ interface FilterBarProps {
   className?: string;
 }
 
-export const FilterBar: React.FC<FilterBarProps> = ({ 
-  searchParams, 
+export const FilterBar: React.FC<FilterBarProps> = ({
+  searchParams,
   products,
-  className = ""
+  className = "",
 }) => {
   const router = useRouter();
-  const { 
+  const {
     tag,
     team,
     league,
@@ -36,7 +36,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     color,
     season,
     search,
-    version
+    version,
   } = searchParams;
 
   // Function to update URL with filter value
@@ -61,10 +61,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   };
 
   // Generic handler for selection changes
-  const handleSelectionChange = (filterName: string, keys: "all" | Set<string>, allKey: string) => {
+  const handleSelectionChange = (
+    filterName: string,
+    keys: "all" | Set<string>,
+    allKey: string,
+  ) => {
     // Check if keys is "all"
     if (keys === "all") {
       updateFilter(filterName, null);
+
       return;
     }
 
@@ -81,22 +86,38 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   };
 
   // Extract unique values for filter options
-  const allTeams = Array.from(new Set(products.map(product => product.team))).sort();
-  const allLeagues = Array.from(new Set(products.map(product => product.league))).sort();
-  const allColors = Array.from(new Set(products.map(product => product.color))).sort();
-  const allSeasons = Array.from(new Set(products.map(product => product.season))).sort();
+  const allTeams = Array.from(
+    new Set(products.map((product) => product.team)),
+  ).sort();
+  const allLeagues = Array.from(
+    new Set(products.map((product) => product.league)),
+  ).sort();
+  const allColors = Array.from(
+    new Set(products.map((product) => product.color)),
+  ).sort();
+  const allSeasons = Array.from(
+    new Set(products.map((product) => product.season)),
+  ).sort();
 
   return (
     <div className={`${className}`}>
       {/* Clear filters button - shown only when filters are active */}
-      {(team || league || color || season || version || minPrice || maxPrice) && (
+      {(team ||
+        league ||
+        color ||
+        season ||
+        version ||
+        minPrice ||
+        maxPrice) && (
         <div className="flex justify-end mb-2">
           <Button
+            className="text-sm"
+            color="default"
             size="sm"
             variant="flat"
-            color="default"
-            className="text-sm"
-            onClick={() => router.push('/' + (search ? `?search=${search}` : ''))}
+            onClick={() =>
+              router.push("/" + (search ? `?search=${search}` : ""))
+            }
           >
             Clear All Filters
           </Button>
@@ -107,38 +128,38 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {/* Team filter */}
         <div>
           <Select
+            className="w-full"
             label="Team"
             placeholder="All Teams"
-            className="w-full"
             selectedKeys={team ? [team] : []}
-            onSelectionChange={(keys) => handleSelectionChange('team', keys, 'all-teams')}
+            onSelectionChange={(keys) =>
+              handleSelectionChange("team", keys, "all-teams")
+            }
           >
             <SelectItem key="all-teams">All Teams</SelectItem>
             <SelectSection>
-              {allTeams.map((teamName) =>
-                <SelectItem key={teamName}>
-                  {teamName}
-                </SelectItem>
-              )}
+              {allTeams.map((teamName) => (
+                <SelectItem key={teamName}>{teamName}</SelectItem>
+              ))}
             </SelectSection>
           </Select>
         </div>
 
         {/* League filter */}
         <div>
-          <Select 
-            label="League" 
-            placeholder="All Leagues"
+          <Select
             className="w-full"
+            label="League"
+            placeholder="All Leagues"
             selectedKeys={league ? [league] : []}
-            onSelectionChange={(keys) => handleSelectionChange('league', keys, 'all-leagues')}
+            onSelectionChange={(keys) =>
+              handleSelectionChange("league", keys, "all-leagues")
+            }
           >
             <SelectItem key="all-leagues">All Leagues</SelectItem>
             <SelectSection>
               {allLeagues.map((leagueName) => (
-                <SelectItem key={leagueName}>
-                  {leagueName}
-                </SelectItem>
+                <SelectItem key={leagueName}>{leagueName}</SelectItem>
               ))}
             </SelectSection>
           </Select>
@@ -146,19 +167,19 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         {/* Color filter */}
         <div>
-          <Select 
-            label="Color" 
-            placeholder="All Colors"
+          <Select
             className="w-full"
+            label="Color"
+            placeholder="All Colors"
             selectedKeys={color ? [color] : []}
-            onSelectionChange={(keys) => handleSelectionChange('color', keys, 'all-colors')}
+            onSelectionChange={(keys) =>
+              handleSelectionChange("color", keys, "all-colors")
+            }
           >
             <SelectItem key="all-colors">All Colors</SelectItem>
             <SelectSection>
               {allColors.map((colorName) => (
-                <SelectItem key={colorName}>
-                  {colorName}
-                </SelectItem>
+                <SelectItem key={colorName}>{colorName}</SelectItem>
               ))}
             </SelectSection>
           </Select>
@@ -166,19 +187,19 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         {/* Season filter */}
         <div>
-          <Select 
-            label="Season" 
-            placeholder="All Seasons"
+          <Select
             className="w-full"
+            label="Season"
+            placeholder="All Seasons"
             selectedKeys={season ? [season] : []}
-            onSelectionChange={(keys) => handleSelectionChange('season', keys, 'all-seasons')}
+            onSelectionChange={(keys) =>
+              handleSelectionChange("season", keys, "all-seasons")
+            }
           >
             <SelectItem key="all-seasons">All Seasons</SelectItem>
             <SelectSection>
               {allSeasons.map((seasonName) => (
-                <SelectItem key={seasonName}>
-                  {seasonName}
-                </SelectItem>
+                <SelectItem key={seasonName}>{seasonName}</SelectItem>
               ))}
             </SelectSection>
           </Select>
@@ -186,12 +207,14 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         {/* Version filter */}
         <div>
-          <Select 
-            label="Version" 
-            placeholder="All Versions"
+          <Select
             className="w-full"
+            label="Version"
+            placeholder="All Versions"
             selectedKeys={version ? [version] : []}
-            onSelectionChange={(keys) => handleSelectionChange('version', keys, 'all-versions')}
+            onSelectionChange={(keys) =>
+              handleSelectionChange("version", keys, "all-versions")
+            }
           >
             <SelectItem key="all-versions">All Versions</SelectItem>
             <SelectItem key="Home">Home</SelectItem>

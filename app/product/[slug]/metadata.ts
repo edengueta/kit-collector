@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+
 import { getProductBySlug } from "@/lib/getProducts";
 
 interface ProductPageProps {

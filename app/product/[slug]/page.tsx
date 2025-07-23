@@ -8,11 +8,11 @@ import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
 import { Link } from "@heroui/link";
 import { Card, CardBody } from "@heroui/card";
+
 import { getProductBySlug, getProducts } from "@/lib/getProducts";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGrid } from "@/components/ProductGrid";
 import { productConfig } from "@/config/products";
-
 
 interface ProductPageProps {
   params: {
@@ -20,8 +20,7 @@ interface ProductPageProps {
   };
 }
 
-
-export default function ProductPage({params}: ProductPageProps) {
+export default function ProductPage({ params }: ProductPageProps) {
   const product = getProductBySlug(params.slug);
   const allProducts = getProducts();
   const [selectedImage, setSelectedImage] = useState<string>("");
@@ -32,24 +31,28 @@ export default function ProductPage({params}: ProductPageProps) {
   }
 
   // Calculate discount only if both prices are available and priceRegular is not zero
-  const discount = (product.priceRegular && product.priceCurrent && product.priceRegular > 0) 
-    ? Math.round(((product.priceRegular - product.priceCurrent) / product.priceRegular) * 100)
-    : 0;
+  const discount =
+    product.priceRegular && product.priceCurrent && product.priceRegular > 0
+      ? Math.round(
+          ((product.priceRegular - product.priceCurrent) /
+            product.priceRegular) *
+            100,
+        )
+      : 0;
 
   // Get related products (same team or league)
   const relatedProducts = allProducts
-    .filter(p => 
-      p.id !== product.id && 
-      (p.team === product.team || p.league === product.league)
+    .filter(
+      (p) =>
+        p.id !== product.id &&
+        (p.team === product.team || p.league === product.league),
     )
     .slice(0, 4);
 
   // Get other products (excluding current product and related products)
-  const otherProducts = allProducts
-    .filter(p => 
-      p.id !== product.id && 
-      !relatedProducts.some(rp => rp.id === p.id)
-    );
+  const otherProducts = allProducts.filter(
+    (p) => p.id !== product.id && !relatedProducts.some((rp) => rp.id === p.id),
+  );
 
   return (
     <div className="py-8 md:py-10">
@@ -60,12 +63,12 @@ export default function ProductPage({params}: ProductPageProps) {
           <Card>
             <CardBody className="p-0">
               <Image
-                shadow="sm"
-                radius="lg"
-                width="100%"
                 alt={`${product.title} - Main Image`}
                 className="w-full object-cover max-h-[500px]"
+                radius="lg"
+                shadow="sm"
                 src={selectedImage || product.images[0]}
+                width="100%"
               />
             </CardBody>
           </Card>
@@ -75,24 +78,24 @@ export default function ProductPage({params}: ProductPageProps) {
             {product.images.slice(0, 4).map((image, index) => (
               <Image
                 key={index}
-                shadow="sm"
-                radius="lg"
-                width={80}
-                height={80}
                 alt={`Thumbnail ${index + 1}`}
-                className={`object-cover cursor-pointer transition-all ${selectedImage === image ? 'ring-2 ring-primary' : ''}`}
+                className={`object-cover cursor-pointer transition-all ${selectedImage === image ? "ring-2 ring-primary" : ""}`}
+                height={80}
+                radius="lg"
+                shadow="sm"
                 src={image}
+                width={80}
                 onClick={() => setSelectedImage(image)}
               />
             ))}
           </div>
 
           {discount > 0 && (
-            <Chip 
-              color="warning" 
-              variant="solid" 
-              size="lg"
+            <Chip
               className="self-start"
+              color="warning"
+              size="lg"
+              variant="solid"
             >
               {discount}% OFF
             </Chip>
@@ -104,39 +107,38 @@ export default function ProductPage({params}: ProductPageProps) {
           <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
           <div className="my-3">
             <Button
-                as={Link}
-                href={product.affiliateUrl}
-                variant="solid"
-                size="lg"
-                className="w-full md:w-auto bg-yellow-400 hover:bg-yellow-00"
-                isExternal
-                showAnchorIcon
+              isExternal
+              showAnchorIcon
+              as={Link}
+              className="w-full md:w-auto bg-yellow-400 hover:bg-yellow-00"
+              href={product.affiliateUrl}
+              size="lg"
+              variant="solid"
             >
               Buy on AliExpress
             </Button>
-
           </div>
 
-            {/*<p className="text-default-500 text-sm mt-2">*/}
-            {/*  * Prices and availability may vary. Use coupon code for additional discount.*/}
-            {/*</p>*/}
+          {/*<p className="text-default-500 text-sm mt-2">*/}
+          {/*  * Prices and availability may vary. Use coupon code for additional discount.*/}
+          {/*</p>*/}
 
           {/* Jersey details */}
           <div className="flex gap-2 flex-wrap mb-4">
             {productConfig.showPlayerName && product.playerName && (
-                <Chip color="success" variant="flat">
-                  {product.playerName}
-                </Chip>
+              <Chip color="success" variant="flat">
+                {product.playerName}
+              </Chip>
             )}
             {productConfig.primaryChips.map((c: any) => (
-                <Chip key={product[c]} variant="flat" color="primary">
-                  {product[c]}
-                </Chip>
+              <Chip key={product[c]} color="primary" variant="flat">
+                {product[c]}
+              </Chip>
             ))}
-            {productConfig.chips.map(c => (
-                <Chip key={product[c]} variant="flat" color="default">
-                  {product[c]}
-                </Chip>
+            {productConfig.chips.map((c) => (
+              <Chip key={product[c]} color="default" variant="flat">
+                {product[c]}
+              </Chip>
             ))}
           </div>
 
@@ -152,18 +154,15 @@ export default function ProductPage({params}: ProductPageProps) {
               </span>
             )}
             {product.couponCode && (
-              <Chip color="warning" variant="dot" size="lg">
+              <Chip color="warning" size="lg" variant="dot">
                 {product.couponCode}
               </Chip>
             )}
           </div>
 
-          <p className="text-default-700 mb-8 text-lg">
-            {product.description}
-          </p>
+          <p className="text-default-700 mb-8 text-lg">{product.description}</p>
 
           <Divider className="my-4" />
-
         </div>
       </div>
 
@@ -185,7 +184,7 @@ export default function ProductPage({params}: ProductPageProps) {
       {otherProducts.length > 0 && (
         <div className="mt-16">
           <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
-          <ProductGrid products={otherProducts} itemsPerPage={10} />
+          <ProductGrid itemsPerPage={10} products={otherProducts} />
         </div>
       )}
     </div>

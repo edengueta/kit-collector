@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { fontRetro, fontSans} from "@/config/fonts";
+import { fontRetro, fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 
 export const metadata: Metadata = {
@@ -17,7 +17,8 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  keywords: "football jerseys, soccer jerseys, aliexpress, football, soccer, premier league, la liga, serie a, bundesliga, ligue 1, real madrid, barcelona, manchester united, liverpool, manchester city",
+  keywords:
+    "football jerseys, soccer jerseys, aliexpress, football, soccer, premier league, la liga, serie a, bundesliga, ligue 1, real madrid, barcelona, manchester united, liverpool, manchester city",
   authors: [
     {
       name: "KitCollector",
@@ -52,7 +53,8 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen text-foreground bg-background font-sans antialiased",
-          fontSans.variable, fontRetro.variable
+          fontSans.variable,
+          fontRetro.variable,
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
@@ -66,8 +68,9 @@ export default function RootLayout({
                 <span className="text-amber-400 font-retro ">KitCollector</span>
               </div>
               <p className="text-default-500 text-xs text-center">
-                Product names, logos, and brands are property of their respective owners.
-                Product and service names used are for demonstration purposes only.
+                Product names, logos, and brands are property of their
+                respective owners. Product and service names used are for
+                demonstration purposes only.
               </p>
             </footer>
           </div>

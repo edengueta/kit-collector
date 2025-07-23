@@ -6,70 +6,73 @@ import { Image } from "@heroui/image";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import NextLink from "next/link";
-import { Product } from "@/lib/getProducts";
-import {productConfig} from "@/config/products";
 
+import { Product } from "@/lib/getProducts";
+import { productConfig } from "@/config/products";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const discount = (product.priceRegular && product.priceCurrent) ?
-      (Math.round((product.priceRegular - product.priceCurrent) / product.priceRegular) * 100) : 0;
+  const discount =
+    product.priceRegular && product.priceCurrent
+      ? Math.round(
+          (product.priceRegular - product.priceCurrent) / product.priceRegular,
+        ) * 100
+      : 0;
 
   // @ts-ignore
   // @ts-ignore
   return (
-    <Card 
-      className="w-full h-full"
-      shadow="sm"
+    <Card
       isPressable
       as={NextLink}
+      className="w-full h-full"
       href={`/product/${product.slug}`}
+      shadow="sm"
     >
       <CardBody className="p-0 overflow-hidden">
         <div className="relative">
           <Image
-            shadow="sm"
-            radius="none"
-            width="100%"
             alt={product.title}
             className="w-full object-cover h-[240px]"
+            radius="none"
+            shadow="sm"
             src={product.images[0]}
+            width="100%"
           />
           {discount > 0 && (
-            <Chip 
-              color="warning" 
-              variant="solid" 
+            <Chip
               className="absolute top-2 right-2"
+              color="warning"
+              variant="solid"
             >
               {discount}% OFF
             </Chip>
           )}
           {/* Team badge in top left */}
-          <Chip 
-            color="default" 
-            variant="solid" 
+          <Chip
             className="absolute top-2 left-2"
+            color="default"
+            variant="solid"
           >
             {product.team}
           </Chip>
         </div>
       </CardBody>
       <CardFooter className="flex flex-col items-start">
-
         {/* Jersey details */}
         <div className="flex gap-1 flex-wrap mb-1">
           {productConfig.primaryChips.map((c) => (
-              <Chip key={product[c]} size="sm" variant="flat" color="primary">
-                {product[c]}
-              </Chip>
+            <Chip key={product[c]} color="primary" size="sm" variant="flat">
+              {product[c]}
+            </Chip>
           ))}
-          {productConfig.chips.map(c => (
-              <Chip key={product[c]} size="sm" variant="flat" color="default">
-                {product[c]}
-              </Chip>
+          {productConfig.chips.map((c) => (
+            <Chip key={product[c]} color="default" size="sm" variant="flat">
+              {product[c]}
+            </Chip>
           ))}
         </div>
 
@@ -89,7 +92,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
             </span>
           )}
           {product.couponCode && (
-            <Chip size="sm" color="warning" variant="dot">
+            <Chip color="warning" size="sm" variant="dot">
               {product.couponCode}
             </Chip>
           )}
@@ -98,18 +101,18 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
         {/* Player name if available */}
         {productConfig.showPlayerName && product.playerName && (
           <div className="flex items-center gap-2 mb-2">
-            <Chip size="sm" color="success" variant="flat">
+            <Chip color="success" size="sm" variant="flat">
               {product.playerName}
             </Chip>
           </div>
         )}
 
         <Button
+          className="self-end mt-2"
           color="warning"
-          variant="flat"
           radius="full"
           size="sm"
-          className="self-end mt-2"
+          variant="flat"
         >
           View Details
         </Button>

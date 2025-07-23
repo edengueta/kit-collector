@@ -1,14 +1,14 @@
 "use client";
 import React, { Suspense } from "react";
 import { Button } from "@heroui/button";
+import NextLink from "next/link";
+
 import { ProductGrid } from "@/components/ProductGrid";
 import { getProducts } from "@/lib/getProducts";
-import NextLink from "next/link";
-import { useRouter } from "next/navigation";
 import { FilterBar } from "@/components/FilterBar";
 
 interface HomeProps {
-  searchParams: { 
+  searchParams: {
     tag?: string;
     team?: string;
     league?: string;
@@ -22,8 +22,7 @@ interface HomeProps {
 }
 
 export default function Home({ searchParams }: HomeProps) {
-  const router = useRouter();
-  const { 
+  const {
     tag,
     team,
     league,
@@ -32,16 +31,19 @@ export default function Home({ searchParams }: HomeProps) {
     color,
     season,
     search,
-    version
+    version,
   } = searchParams;
 
   const products = getProducts();
 
   // Price range for filtering
-  const priceRange = minPrice && maxPrice ? {
-    min: parseFloat(minPrice),
-    max: parseFloat(maxPrice)
-  } : undefined;
+  const priceRange =
+    minPrice && maxPrice
+      ? {
+          min: parseFloat(minPrice),
+          max: parseFloat(maxPrice),
+        }
+      : undefined;
 
   return (
     <section className="flex flex-col gap-6 py-8 md:py-10">
@@ -49,14 +51,16 @@ export default function Home({ searchParams }: HomeProps) {
         {search && (
           <div className="mt-4 flex justify-center">
             <div className="bg-warning-100 text-amber-600 px-4 py-2 rounded-full flex items-center">
-              <span>Search results for: <strong>{search}</strong></span>
-              <Button 
+              <span>
+                Search results for: <strong>{search}</strong>
+              </span>
+              <Button
+                aria-label="Clear search"
                 as={NextLink}
+                className="ml-2"
                 href="/"
                 size="sm"
                 variant="light"
-                className="ml-2"
-                aria-label="Clear search"
               >
                 Clear
               </Button>
@@ -67,23 +71,20 @@ export default function Home({ searchParams }: HomeProps) {
 
       {/* Filter section - visible only on desktop */}
       <div className="hidden md:block mb-6">
-        <FilterBar 
-          searchParams={searchParams} 
-          products={products} 
-        />
+        <FilterBar products={products} searchParams={searchParams} />
       </div>
 
       {/* Product grid */}
       <Suspense fallback={<div>Loading products...</div>}>
-        <ProductGrid 
-          products={products} 
-          tag={tag}
-          team={team}
+        <ProductGrid
+          color={color}
           league={league}
           priceRange={priceRange}
-          color={color}
-          season={season}
+          products={products}
           search={search}
+          season={season}
+          tag={tag}
+          team={team}
           version={version}
         />
       </Suspense>

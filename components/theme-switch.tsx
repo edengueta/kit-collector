@@ -6,7 +6,7 @@ import { SwitchProps, useSwitch } from "@heroui/switch";
 import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
 import clsx from "clsx";
-import {IconMoon, IconSun} from "@tabler/icons-react";
+import { IconMoon, IconSun } from "@tabler/icons-react";
 
 export interface ThemeSwitchProps {
   className?: string;
@@ -69,11 +69,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
           ),
         })}
       >
-        {!isSelected || isSSR ? (
-          <IconSun size={22} />
-        ) : (
-          <IconMoon size={22} />
-        )}
+        {!isSelected || isSSR ? <IconSun size={22} /> : <IconMoon size={22} />}
       </div>
     </Component>
   );

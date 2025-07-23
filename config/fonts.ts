@@ -1,4 +1,8 @@
-import { Fira_Code as FontMono, Inter as FontSans, Chicle as FontRetro} from "next/font/google";
+import {
+  Fira_Code as FontMono,
+  Inter as FontSans,
+  Chicle as FontRetro,
+} from "next/font/google";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -13,5 +17,5 @@ export const fontMono = FontMono({
 export const fontRetro = FontRetro({
   subsets: ["latin"],
   variable: "--font-retro",
-  weight: "400"
-})
+  weight: "400",
+});
