@@ -7,6 +7,8 @@ import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import NextLink from "next/link";
 import { Product } from "@/lib/getProducts";
+import {productConfig} from "@/config/products";
+
 
 interface ProductCardProps {
   product: Product;
@@ -16,6 +18,8 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const discount = (product.priceRegular && product.priceCurrent) ?
       (Math.round((product.priceRegular - product.priceCurrent) / product.priceRegular) * 100) : 0;
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <Card 
       className="w-full h-full"
@@ -54,17 +58,19 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
         </div>
       </CardBody>
       <CardFooter className="flex flex-col items-start">
+
         {/* Jersey details */}
         <div className="flex gap-1 flex-wrap mb-1">
-          <Chip key={product.league} size="sm" variant="flat" color="primary">
-            {product.league}
-          </Chip>
-          <Chip key={product.version} size="sm" variant="flat" color="default">
-            {product.version}
-          </Chip>
-          <Chip key={product.season} size="sm" variant="flat" color="default">
-            {product.season}
-          </Chip>
+          {productConfig.primaryChips.map((c) => (
+              <Chip key={product[c]} size="sm" variant="flat" color="primary">
+                {product[c]}
+              </Chip>
+          ))}
+          {productConfig.chips.map(c => (
+              <Chip key={product[c]} size="sm" variant="flat" color="default">
+                {product[c]}
+              </Chip>
+          ))}
         </div>
 
         {/* Jersey title */}
@@ -90,10 +96,10 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Player name if available */}
-        {product.playerName && (
+        {productConfig.showPlayerName && product.playerName && (
           <div className="flex items-center gap-2 mb-2">
             <Chip size="sm" color="success" variant="flat">
-              Player: {product.playerName}
+              {product.playerName}
             </Chip>
           </div>
         )}

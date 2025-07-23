@@ -1,11 +1,11 @@
 "use client";
 import React, { Suspense } from "react";
-import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
-import { title, subtitle } from "@/components/primitives";
 import { ProductGrid } from "@/components/ProductGrid";
 import { getProducts } from "@/lib/getProducts";
 import NextLink from "next/link";
+import { useRouter } from "next/navigation";
+import { FilterBar } from "@/components/FilterBar";
 
 interface HomeProps {
   searchParams: { 
@@ -17,10 +17,12 @@ interface HomeProps {
     color?: string;
     season?: string;
     search?: string;
+    version?: string;
   };
 }
 
 export default function Home({ searchParams }: HomeProps) {
+  const router = useRouter();
   const { 
     tag,
     team,
@@ -29,16 +31,11 @@ export default function Home({ searchParams }: HomeProps) {
     maxPrice,
     color,
     season,
-    search
+    search,
+    version
   } = searchParams;
 
   const products = getProducts();
-
-  // Extract unique values for filter options
-  const allTeams = Array.from(new Set(products.map(product => product.team))).sort();
-  const allLeagues = Array.from(new Set(products.map(product => product.league))).sort();
-  const allColors = Array.from(new Set(products.map(product => product.color))).sort();
-  const allSeasons = Array.from(new Set(products.map(product => product.season))).sort();
 
   // Price range for filtering
   const priceRange = minPrice && maxPrice ? {
@@ -68,85 +65,12 @@ export default function Home({ searchParams }: HomeProps) {
         )}
       </div>
 
-      {/* Filter section */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-        {/* Team filter */}
-        <div>
-          <Select
-            label="Team"
-            placeholder="All Teams"
-            className="w-full"
-            selectedKeys={team ? [team] : []}
-          >
-            {allTeams.map((teamName) => (
-              <SelectItem key={teamName}>
-                {teamName}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-
-        {/* League filter */}
-        <div>
-          <Select 
-            label="League" 
-            placeholder="All Leagues"
-            className="w-full"
-            selectedKeys={league ? [league] : []}
-          >
-            {allLeagues.map((leagueName) => (
-              <SelectItem key={leagueName}>
-                {leagueName}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-
-        {/* Color filter */}
-        <div>
-          <Select 
-            label="Color" 
-            placeholder="All Colors"
-            className="w-full"
-            selectedKeys={color ? [color] : []}
-          >
-            {allColors.map((colorName) => (
-              <SelectItem key={colorName}>
-                {colorName}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-
-        {/* Season filter */}
-        <div>
-          <Select 
-            label="Season" 
-            placeholder="All Seasons"
-            className="w-full"
-            selectedKeys={season ? [season] : []}
-          >
-            {allSeasons.map((seasonName) => (
-              <SelectItem key={seasonName}>
-                {seasonName}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-
-        {/* Version filter */}
-        <div>
-          <Select 
-            label="Version" 
-            placeholder="All Versions"
-            className="w-full"
-          >
-            <SelectItem key="Home">Home</SelectItem>
-            <SelectItem key="Away">Away</SelectItem>
-            <SelectItem key="Third">Third</SelectItem>
-            <SelectItem key="Retro">Retro</SelectItem>
-          </Select>
-        </div>
+      {/* Filter section - visible only on desktop */}
+      <div className="hidden md:block mb-6">
+        <FilterBar 
+          searchParams={searchParams} 
+          products={products} 
+        />
       </div>
 
       {/* Product grid */}
@@ -160,6 +84,7 @@ export default function Home({ searchParams }: HomeProps) {
           color={color}
           season={season}
           search={search}
+          version={version}
         />
       </Suspense>
     </section>

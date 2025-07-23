@@ -14,9 +14,18 @@ import NextLink from "next/link";
 import { ThemeSwitch } from "@/components/theme-switch";
 import {IconSearch} from "@tabler/icons-react";
 import NextImage from "next/image";
-import logo from "../public/images/logo-kc.png"
+import logo from "../public/images/logo-kc.png";
+import { FilterBar } from "@/components/FilterBar";
+import { getProducts } from "@/lib/getProducts";
+import { useSearchParams } from "next/navigation";
 
 export const Navbar = () => {
+  const searchParams = useSearchParams();
+  const products = getProducts();
+
+  // Convert searchParams to an object for FilterBar
+  const searchParamsObj = Object.fromEntries(searchParams.entries());
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -55,7 +64,7 @@ export const Navbar = () => {
   );
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
+    <HeroUINavbar maxWidth="xl">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
@@ -83,6 +92,14 @@ export const Navbar = () => {
       <NavbarMenu>
         <div className="mt-2 px-2">
           {searchInput}
+          <div className="mt-4 mb-2">
+            <h3 className="text-lg font-semibold mb-2">Filters</h3>
+            <FilterBar 
+              searchParams={searchParamsObj} 
+              products={products} 
+              className="md:hidden"
+            />
+          </div>
         </div>
       </NavbarMenu>
     </HeroUINavbar>

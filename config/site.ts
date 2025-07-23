@@ -31,4 +31,7 @@ export const siteConfig = {
       href: "/?sort=popular",
     },
   ],
+  itemsPerPage: 12,
+  showBannerInGrid: true,
+  bannerInterval: 16
 };

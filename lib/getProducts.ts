@@ -12,12 +12,12 @@ export interface Product {
   priceCurrent?: number;
   couponCode?: string;
   // Football jersey specific fields
-  team: string;
-  league: string;
-  season: string;
+  team?: string;
+  league?: string;
+  season?: string;
   playerName?: string; // Optional
-  version: string; // home, away, third, retro, etc.
-  color: string; // Base color of the jersey
+  version?: string; // home, away, third, retro, etc.
+  color?: string; // Base color of the jersey
 }
 
 // Get all products
