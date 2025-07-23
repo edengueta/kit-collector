@@ -20,6 +20,14 @@ export interface Product {
   color?: string; // Base color of the jersey
 }
 
+export function calculateDiscountPercentage(product: Product) {
+  return product.priceRegular && product.priceCurrent
+    ? Math.round(
+        (product.priceRegular - product.priceCurrent) / product.priceRegular,
+      ) * 100
+    : 0;
+}
+
 // Get all products
 export function getProducts(): Product[] {
   return productsData as Product[];

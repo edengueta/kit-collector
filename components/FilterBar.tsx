@@ -5,47 +5,27 @@ import { Select, SelectItem, SelectSection } from "@heroui/select";
 import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
 
+import { useFilters } from "@/config/useFilters";
+
 interface FilterBarProps {
-  searchParams: {
-    tag?: string;
-    team?: string;
-    league?: string;
-    minPrice?: string;
-    maxPrice?: string;
-    color?: string;
-    season?: string;
-    search?: string;
-    version?: string;
-  };
   products: any[];
   className?: string;
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({
-  searchParams,
   products,
   className = "",
 }) => {
   const router = useRouter();
-  const {
-    tag,
-    team,
-    league,
-    minPrice,
-    maxPrice,
-    color,
-    season,
-    search,
-    version,
-  } = searchParams;
-
+  const filterParams = useFilters();
+  const { team, league, minPrice, maxPrice, color, season, search, version } = filterParams;
   // Function to update URL with filter value
   const updateFilter = (filterName: string, value: string | null) => {
     // Create a new URLSearchParams object with the current search parameters
     const params = new URLSearchParams();
 
     // Add all current search parameters
-    Object.entries(searchParams).forEach(([key, val]) => {
+    Object.entries(filterParams).forEach(([key, val]) => {
       if (key !== filterName && val) {
         params.set(key, val);
       }

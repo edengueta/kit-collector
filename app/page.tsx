@@ -6,44 +6,15 @@ import NextLink from "next/link";
 import { ProductGrid } from "@/components/ProductGrid";
 import { getProducts } from "@/lib/getProducts";
 import { FilterBar } from "@/components/FilterBar";
-
+import { SearchParams } from "@/types/filters";
+import { useFilters } from "@/config/useFilters";
 interface HomeProps {
-  searchParams: {
-    tag?: string;
-    team?: string;
-    league?: string;
-    minPrice?: string;
-    maxPrice?: string;
-    color?: string;
-    season?: string;
-    search?: string;
-    version?: string;
-  };
+  searchParams: SearchParams;
 }
 
 export default function Home({ searchParams }: HomeProps) {
-  const {
-    tag,
-    team,
-    league,
-    minPrice,
-    maxPrice,
-    color,
-    season,
-    search,
-    version,
-  } = searchParams;
-
   const products = getProducts();
-
-  // Price range for filtering
-  const priceRange =
-    minPrice && maxPrice
-      ? {
-          min: parseFloat(minPrice),
-          max: parseFloat(maxPrice),
-        }
-      : undefined;
+  const { search } = useFilters();
 
   return (
     <section className="flex flex-col gap-6 py-8 md:py-10">
@@ -71,22 +42,12 @@ export default function Home({ searchParams }: HomeProps) {
 
       {/* Filter section - visible only on desktop */}
       <div className="hidden md:block mb-6">
-        <FilterBar products={products} searchParams={searchParams} />
+        <FilterBar products={products} />
       </div>
 
       {/* Product grid */}
       <Suspense fallback={<div>Loading products...</div>}>
-        <ProductGrid
-          color={color}
-          league={league}
-          priceRange={priceRange}
-          products={products}
-          search={search}
-          season={season}
-          tag={tag}
-          team={team}
-          version={version}
-        />
+        <ProductGrid products={products} />
       </Suspense>
     </section>
   );

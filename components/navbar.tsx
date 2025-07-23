@@ -22,11 +22,7 @@ import { FilterBar } from "@/components/FilterBar";
 import { getProducts } from "@/lib/getProducts";
 
 export const Navbar = () => {
-  const searchParams = useSearchParams();
   const products = getProducts();
-
-  // Convert searchParams to an object for FilterBar
-  const searchParamsObj = Object.fromEntries(searchParams.entries());
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -104,7 +100,6 @@ export const Navbar = () => {
             <FilterBar
               className="md:hidden"
               products={products}
-              searchParams={searchParamsObj}
             />
           </div>
         </div>

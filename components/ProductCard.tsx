@@ -7,23 +7,16 @@ import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import NextLink from "next/link";
 
-import { Product } from "@/lib/getProducts";
-import { productConfig } from "@/config/products";
+import { calculateDiscountPercentage, Product } from "@/lib/getProducts";
+import { ProductDetails } from "@/components/ProductDetails";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const discount =
-    product.priceRegular && product.priceCurrent
-      ? Math.round(
-          (product.priceRegular - product.priceCurrent) / product.priceRegular,
-        ) * 100
-      : 0;
+  const discount = calculateDiscountPercentage(product);
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <Card
       isPressable
@@ -62,19 +55,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
         </div>
       </CardBody>
       <CardFooter className="flex flex-col items-start">
-        {/* Jersey details */}
-        <div className="flex gap-1 flex-wrap mb-1">
-          {productConfig.primaryChips.map((c) => (
-            <Chip key={product[c]} color="primary" size="sm" variant="flat">
-              {product[c]}
-            </Chip>
-          ))}
-          {productConfig.chips.map((c) => (
-            <Chip key={product[c]} color="default" size="sm" variant="flat">
-              {product[c]}
-            </Chip>
-          ))}
-        </div>
+        <ProductDetails small product={product} />
 
         {/* Jersey title */}
         <h3 className="font-semibold text-lg mb-1">{product.title}</h3>
@@ -97,15 +78,6 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
             </Chip>
           )}
         </div>
-
-        {/* Player name if available */}
-        {productConfig.showPlayerName && product.playerName && (
-          <div className="flex items-center gap-2 mb-2">
-            <Chip color="success" size="sm" variant="flat">
-              {product.playerName}
-            </Chip>
-          </div>
-        )}
 
         <Button
           className="self-end mt-2"

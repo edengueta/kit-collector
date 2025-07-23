@@ -9,36 +9,43 @@ import { Banner } from "./Banner";
 import { siteConfig } from "@/config/site";
 import { Product } from "@/lib/getProducts";
 import { getBanners } from "@/lib/getBanners";
+import { useFilters } from "@/config/useFilters";
 
 interface ProductGridProps {
   products: Product[];
-  tag?: string;
-  team?: string;
-  league?: string;
-  priceRange?: { min: number; max: number };
-  color?: string;
-  season?: string;
-  search?: string;
-  version?: string;
   itemsPerPage?: number;
 }
 
 export const ProductGrid: FC<ProductGridProps> = ({
   products,
-  tag,
-  team,
-  league,
-  priceRange,
-  color,
-  season,
-  search,
-  version,
   itemsPerPage = siteConfig.itemsPerPage,
 }) => {
+  const filterParams = useFilters();
+  const {
+    team,
+    league,
+    minPrice,
+    maxPrice,
+    color,
+    season,
+    search,
+    version,
+    tag,
+  } = filterParams;
+
   const [displayCount, setDisplayCount] = useState<number>(itemsPerPage);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // Apply all filters
   let filteredProducts = products;
+
+  // Price range for filtering
+  const priceRange =
+    minPrice && maxPrice
+      ? {
+          min: parseFloat(minPrice),
+          max: parseFloat(maxPrice),
+        }
+      : undefined;
 
   // Filter by tag if provided
   if (tag) {
@@ -144,8 +151,8 @@ export const ProductGrid: FC<ProductGridProps> = ({
               Math.floor(index / siteConfig.bannerInterval) % banners.length;
 
             return (
-              <>
-                <div key={product.id} className="w-full">
+              <div key={index}>
+                <div className="w-full">
                   <ProductCard product={product} />
                 </div>
 
@@ -157,7 +164,7 @@ export const ProductGrid: FC<ProductGridProps> = ({
                     <Banner banner={banners[bannerIndex]} />
                   </div>
                 )}
-              </>
+              </div>
             );
           })
         ) : (

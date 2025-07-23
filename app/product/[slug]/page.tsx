@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { notFound } from "next/navigation";
+import {notFound, useParams} from "next/navigation";
 import { Image } from "@heroui/image";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
@@ -9,19 +9,14 @@ import { Divider } from "@heroui/divider";
 import { Link } from "@heroui/link";
 import { Card, CardBody } from "@heroui/card";
 
-import { getProductBySlug, getProducts } from "@/lib/getProducts";
+import {calculateDiscountPercentage, getProductBySlug, getProducts} from "@/lib/getProducts";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGrid } from "@/components/ProductGrid";
-import { productConfig } from "@/config/products";
+import { ProductDetails } from "@/components/ProductDetails";
 
-interface ProductPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function ProductPage({ params }: ProductPageProps) {
-  const product = getProductBySlug(params.slug);
+export default function ProductPage() {
+  const params = useParams();
+  const product = getProductBySlug(params.slug as string);
   const allProducts = getProducts();
   const [selectedImage, setSelectedImage] = useState<string>("");
 
@@ -30,15 +25,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  // Calculate discount only if both prices are available and priceRegular is not zero
-  const discount =
-    product.priceRegular && product.priceCurrent && product.priceRegular > 0
-      ? Math.round(
-          ((product.priceRegular - product.priceCurrent) /
-            product.priceRegular) *
-            100,
-        )
-      : 0;
+  const discount = calculateDiscountPercentage(product);
 
   // Get related products (same team or league)
   const relatedProducts = allProducts
@@ -123,24 +110,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           {/*  * Prices and availability may vary. Use coupon code for additional discount.*/}
           {/*</p>*/}
 
-          {/* Jersey details */}
-          <div className="flex gap-2 flex-wrap mb-4">
-            {productConfig.showPlayerName && product.playerName && (
-              <Chip color="success" variant="flat">
-                {product.playerName}
-              </Chip>
-            )}
-            {productConfig.primaryChips.map((c: any) => (
-              <Chip key={product[c]} color="primary" variant="flat">
-                {product[c]}
-              </Chip>
-            ))}
-            {productConfig.chips.map((c) => (
-              <Chip key={product[c]} color="default" variant="flat">
-                {product[c]}
-              </Chip>
-            ))}
-          </div>
+          <ProductDetails product={product}/>
 
           <div className="flex items-center gap-3 mb-6">
             {product.priceRegular && (
