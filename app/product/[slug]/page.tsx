@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {notFound, useParams} from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { Image } from "@heroui/image";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
@@ -9,7 +9,11 @@ import { Divider } from "@heroui/divider";
 import { Link } from "@heroui/link";
 import { Card, CardBody } from "@heroui/card";
 
-import {calculateDiscountPercentage, getProductBySlug, getProducts} from "@/lib/getProducts";
+import {
+  calculateDiscountPercentage,
+  getProductBySlug,
+  getProducts,
+} from "@/lib/getProducts";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductDetails } from "@/components/ProductDetails";
@@ -110,7 +114,7 @@ export default function ProductPage() {
           {/*  * Prices and availability may vary. Use coupon code for additional discount.*/}
           {/*</p>*/}
 
-          <ProductDetails product={product}/>
+          <ProductDetails product={product} />
 
           <div className="flex items-center gap-3 mb-6">
             {product.priceRegular && (

@@ -1,8 +1,9 @@
 import { useSearchParams } from "next/navigation";
 
+import { SearchParams } from "@/types/filters";
+
 export const useFilters = () => {
   const searchParams = useSearchParams();
-
   const get = (key: string) => searchParams.get(key) ?? undefined;
 
   return {
@@ -14,6 +15,6 @@ export const useFilters = () => {
     search: get("search"),
     minPrice: get("minPrice"),
     maxPrice: get("maxPrice"),
-      tag: get("tag"),
-  };
+    tag: get("tag"),
+  } as SearchParams;
 };

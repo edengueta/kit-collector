@@ -13,7 +13,6 @@ import { Input } from "@heroui/input";
 import NextLink from "next/link";
 import { IconSearch } from "@tabler/icons-react";
 import NextImage from "next/image";
-import { useSearchParams } from "next/navigation";
 
 import logo from "../public/images/logo-kc.png";
 
@@ -97,10 +96,7 @@ export const Navbar = () => {
           {searchInput}
           <div className="mt-4 mb-2">
             <h3 className="text-lg font-semibold mb-2">Filters</h3>
-            <FilterBar
-              className="md:hidden"
-              products={products}
-            />
+            <FilterBar className="md:hidden" products={products} />
           </div>
         </div>
       </NavbarMenu>

@@ -6,13 +6,8 @@ import NextLink from "next/link";
 import { ProductGrid } from "@/components/ProductGrid";
 import { getProducts } from "@/lib/getProducts";
 import { FilterBar } from "@/components/FilterBar";
-import { SearchParams } from "@/types/filters";
 import { useFilters } from "@/config/useFilters";
-interface HomeProps {
-  searchParams: SearchParams;
-}
-
-export default function Home({ searchParams }: HomeProps) {
+export default function Home() {
   const products = getProducts();
   const { search } = useFilters();
 

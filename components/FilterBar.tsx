@@ -18,7 +18,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 }) => {
   const router = useRouter();
   const filterParams = useFilters();
-  const { team, league, minPrice, maxPrice, color, season, search, version } = filterParams;
+  const { team, league, minPrice, maxPrice, color, season, search, version } =
+    filterParams;
   // Function to update URL with filter value
   const updateFilter = (filterName: string, value: string | null) => {
     // Create a new URLSearchParams object with the current search parameters
