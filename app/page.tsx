@@ -7,7 +7,7 @@ import { ProductGrid } from "@/components/ProductGrid";
 import { getProducts } from "@/lib/getProducts";
 import { FilterBar } from "@/components/FilterBar";
 import { useFilters } from "@/config/useFilters";
-export default function Home() {
+function HomeContent() {
   const products = getProducts();
   const { search } = useFilters();
 
@@ -45,5 +45,12 @@ export default function Home() {
         <ProductGrid products={products} />
       </Suspense>
     </section>
+  );
+}
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading page...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
