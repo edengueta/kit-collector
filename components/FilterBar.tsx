@@ -12,6 +12,8 @@ interface FilterBarProps {
   className?: string;
 }
 
+type Keys = "all" | Set<string>;
+
 export const FilterBar: React.FC<FilterBarProps> = ({
   products,
   className = "",
@@ -44,7 +46,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   // Generic handler for selection changes
   const handleSelectionChange = (
     filterName: string,
-    keys: "all" | Set<string>,
+    keys: Keys,
     allKey: string,
   ) => {
     // Check if keys is "all"
@@ -114,7 +116,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             placeholder="All Teams"
             selectedKeys={team ? [team] : []}
             onSelectionChange={(keys) =>
-              handleSelectionChange("team", keys, "all-teams")
+              handleSelectionChange("team", keys as Keys, "all-teams")
             }
           >
             <SelectItem key="all-teams">All Teams</SelectItem>
@@ -134,7 +136,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             placeholder="All Leagues"
             selectedKeys={league ? [league] : []}
             onSelectionChange={(keys) =>
-              handleSelectionChange("league", keys, "all-leagues")
+              handleSelectionChange("league", keys as Keys, "all-leagues")
             }
           >
             <SelectItem key="all-leagues">All Leagues</SelectItem>
@@ -154,7 +156,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             placeholder="All Colors"
             selectedKeys={color ? [color] : []}
             onSelectionChange={(keys) =>
-              handleSelectionChange("color", keys, "all-colors")
+              handleSelectionChange("color", keys as Keys, "all-colors")
             }
           >
             <SelectItem key="all-colors">All Colors</SelectItem>
@@ -174,7 +176,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             placeholder="All Seasons"
             selectedKeys={season ? [season] : []}
             onSelectionChange={(keys) =>
-              handleSelectionChange("season", keys, "all-seasons")
+              handleSelectionChange("season", keys as Keys, "all-seasons")
             }
           >
             <SelectItem key="all-seasons">All Seasons</SelectItem>
@@ -194,7 +196,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             placeholder="All Versions"
             selectedKeys={version ? [version] : []}
             onSelectionChange={(keys) =>
-              handleSelectionChange("version", keys, "all-versions")
+              handleSelectionChange("version", keys as Keys, "all-versions")
             }
           >
             <SelectItem key="all-versions">All Versions</SelectItem>
